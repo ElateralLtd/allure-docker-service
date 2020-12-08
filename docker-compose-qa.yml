@@ -25,4 +25,4 @@ services:
     ports:
       - "5053:5053"
     volumes:
-      - ${PWD}/projects:/app/projects
+      - /c/Categories/work/elateral/_temp/projects:/app/projects
