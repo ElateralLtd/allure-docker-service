@@ -14,7 +14,7 @@ if [ "$(ls $PROJECT_REPORTS | wc -l)" != "0" ]; then
     if [ -e "$PROJECT_REPORTS/latest" ]; then
         LAST_REPORT_PATH_DIRECTORY=$(ls -td $PROJECT_REPORTS/* | grep -v latest | grep -v $EMAILABLE_REPORT_FILE_NAME | head -1)
     else
-        LAST_REPORT_PATH_DIRECTORY="$PROJECT_REPORTS/0"
+        LAST_REPORT_PATH_DIRECTORY=$(ls -td $PROJECT_REPORTS/* | grep -v $EMAILABLE_REPORT_FILE_NAME | head -1)
     fi
 fi
 
@@ -63,6 +63,12 @@ else
 fi
 
 echo "Generating report for PROJECT_ID: $PROJECT_ID"
-echo "Results directory is: $RESULTS_DIRECTORY"
-allure generate --clean $RESULTS_DIRECTORY -o $STATIC_CONTENT_PROJECTS/$PROJECT_ID/reports/$BUILD_ORDER
-echo "BUILD_ORDER:$BUILD_ORDER"
+allure generate --clean $RESULTS_DIRECTORY -o $STATIC_CONTENT_PROJECTS/$PROJECT_ID/reports/latest
+
+if [ "$KEEP_HISTORY" == "TRUE" ] || [ "$KEEP_HISTORY" == "true" ] || [ "$KEEP_HISTORY" == "1" ] ; then
+    if [[ "$EXEC_STORE_RESULTS_PROCESS" == "1" ]]; then
+        $ROOT/storeAllureReport.sh $PROJECT_ID $BUILD_ORDER
+    fi
+fi
+
+$ROOT/keepAllureLatestHistory.sh $PROJECT_ID

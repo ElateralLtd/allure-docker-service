@@ -15,20 +15,22 @@ services:
       DEV_MODE: 0
       CHECK_RESULTS_EVERY_SECONDS: NONE
       KEEP_HISTORY: 1
-      KEEP_HISTORY_LATEST: 5
+      KEEP_HISTORY_LATEST: 999999
       #URL_PREFIX: "/my-prefix"
       SECURITY_USER: "my_username"
       SECURITY_PASS: "my_password"
       SECURITY_ENABLED: 0
+      PORT: 5051
+      API_RESPONSE_LESS_VERBOSE: 1
     ports:
-      - "${ALLURE_DOCKER_SERVICE_API_PORT}:5050"
+      - "5051:5051"
     volumes:
-      - ./.data/allure-docker-service/allure-results:/app/allure-results
+      - /c/Categories/work/elateral/_temp/projects:/app/projects
 
-  allure-ui:
-    image: "frankescobar/allure-docker-service-ui"
-    environment:
-      ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:${ALLURE_DOCKER_SERVICE_API_PORT}"
-      ALLURE_DOCKER_PUBLIC_API_URL_PREFIX: ""
-    ports:
-      - "7474:5252"
+      # allure-ui:
+      # image: "frankescobar/allure-docker-service-ui"
+      # environment:
+      # ALLURE_DOCKER_PUBLIC_API_URL: "http://localhost:${ALLURE_DOCKER_SERVICE_API_PORT}"
+      # ALLURE_DOCKER_PUBLIC_API_URL_PREFIX: ""
+      # ports:
+      # - "7474:5252"
