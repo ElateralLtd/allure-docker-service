@@ -9,6 +9,6 @@ workflows:
           login-server-name: bgmacr.azurecr.io
           registry-name: bgmacr
           repo: allure-docker-service
-          tag: $(cat docker-custom/package.json | jq --raw-output .version)-${CIRCLE_BRANCH}
+          tag: $(cat docker-custom/package.json | jq --raw-output .version)-$(sed -i '\s/\//-/g' "${CIRCLE_BRANCH}")
           context: org-global
           dockerfile: docker-custom/Dockerfile.bionic-custom
